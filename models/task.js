@@ -43,7 +43,7 @@ const TaskSchema = Schema({
       },
     },
   ],
-  comment: String,
+  comment: [String],
   project: {
     type: mongoose.Types.ObjectId,
     ref: "Project",

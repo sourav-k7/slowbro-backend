@@ -4,8 +4,8 @@ const tokenCheck = require('../middleware/tokenCheck');
 
 const router = express.Router();
 
-router('/new',tokenCheck,newTask);
-router('/update',tokenCheck,updateTask);
-router('/complete',tokenCheck,markAsComplete);
+router.post('/new',tokenCheck,newTask);
+router.post('/update',tokenCheck,updateTask);
+router.post('/complete',tokenCheck,markAsComplete);
 
 module.exports = router;
