@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
 
 var validateEmail = function (email) {
 	var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -18,15 +19,17 @@ const UserSchema = Schema({
 		unique: true,
 		lowercase: true,
 		trim: true,
+		required:true,
 		validate: [validateEmail, "Please fill a valid email address"],
 	  },
-	password: {
+	password: {	
 		type: String,
+		required:true,
 		set: (password) => {
-		  if (password.length > 60 || password.length < 5) {
-			return password;
-		  }
-		  const salt = bcrypt.genSaltSync(10);
+			if (password.length > 60 || password.length < 5) {
+				return password;
+			}
+			const salt = bcrypt.genSaltSync(10);
 		  const hash = bcrypt.hashSync(password, salt);
 		  return hash;
 		},

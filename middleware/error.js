@@ -1,4 +1,3 @@
-const ErrorHandler = require('../utils/errorHandler');
 
 const errorMiddleware = (error,req,res,next)=>{
 	// console.log(error);
