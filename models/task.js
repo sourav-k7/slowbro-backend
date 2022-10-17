@@ -48,6 +48,10 @@ const TaskSchema = Schema({
     type: mongoose.Types.ObjectId,
     ref: "Project",
   },
+  user:{
+    type:mongoose.Types.ObjectId,
+    ref:"User"
+  },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

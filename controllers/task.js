@@ -86,3 +86,15 @@ module.exports.markAsComplete = async (req, res, next) => {
     next(new ErrorHandler(error, 500));
   }
 };
+
+module.exports.getAllTask = async (req,res,next)=>{
+  try {
+    const user = req.user;
+    const taskList = await taskModel.find({user:user}).lean();
+    res.json({
+      data:taskList,
+    })
+  } catch (error) {
+    next(new ErrorHandler(error,500));
+  }
+}

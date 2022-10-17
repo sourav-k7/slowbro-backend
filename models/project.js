@@ -11,6 +11,10 @@ const ProjectSchema = Schema({
 		enum:['active','complete'],
 		default:'active',
 	},
+	user:{
+		type:mongoose.Types.ObjectId,
+		ref:"User",
+	},
 	completionTime: Date,
 });
 
