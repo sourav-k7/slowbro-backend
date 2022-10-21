@@ -13,8 +13,10 @@ module.exports.newTask = async (req, res, next) => {
 		doubt,
 		comments,
 		project,
+    orderId,
 	} = req.body;
 	const newTask = await taskModel.create({ 
+    user:req.user,
 		task,
 		description,
 		img_url,
@@ -24,6 +26,7 @@ module.exports.newTask = async (req, res, next) => {
 		doubt,
 		comments,
 		project,
+    orderId
 	});
 	res.json({
 		message:'Task created',
@@ -62,7 +65,7 @@ module.exports.updateTask = async (req, res, next) => {
         project,
       },
       { new: true }
-    );
+    ).lean();
 	res.json({
 		message:'Task updated',
 		data:updatedTask,
@@ -71,6 +74,21 @@ module.exports.updateTask = async (req, res, next) => {
     next(new ErrorHandler(error, 500));
   }
 };
+
+module.exports.swapTask = async(req,res,next)=>{
+  try {
+      const {
+        dragTaskId,
+        dragTaskOrderId,
+        dropTaskId,
+        dropTaskOrderId
+      } = req.body;
+      await taskModel.findOneAndUpdate(dragTaskId,{orderId:dropTaskOrderId});
+      await taskModel.findOneAndUpdate(dropTaskId,{orderId:dragTaskOrderId});
+  } catch (error) {
+    next(new ErrorHandler(error,500));
+  }
+}
 
 module.exports.markAsComplete = async (req, res, next) => {
   try {
@@ -87,10 +105,10 @@ module.exports.markAsComplete = async (req, res, next) => {
   }
 };
 
-module.exports.getAllTask = async (req,res,next)=>{
+module.exports.getAllPendingTask = async (req,res,next)=>{
   try {
     const user = req.user;
-    const taskList = await taskModel.find({user:user}).lean();
+    const taskList = await taskModel.find({user:user,status:{$in:["unstarted", "started"]}}).lean();
     res.json({
       data:taskList,
     })
