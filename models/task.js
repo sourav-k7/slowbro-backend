@@ -29,8 +29,9 @@ const TaskSchema = Schema({
     enum: ["unstarted", "started", "completed"],
     default:'unstarted',
   },
-  //   (new Date()).toUTCString(),
-  completionTime: Date,
+  completionTime: {
+    type:Date,
+  },
   point: Number,
   doubt: [
     {
