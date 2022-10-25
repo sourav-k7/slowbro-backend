@@ -174,3 +174,15 @@ module.exports.getPreviouslyCompletedTask = async (req, res, next) => {
     next(new ErrorHandler(error, 500));
   }
 };
+
+module.exports.deleteTask = async (req,res,next)=>{
+  try {
+    const taskId = req.params.id;
+    await taskModel.findByIdAndDelete({_id:taskId});
+    res.json({
+      message:'Task deleted'
+    })
+  } catch (error) {
+    next(new ErrorHandler(error,500));
+  }
+}
