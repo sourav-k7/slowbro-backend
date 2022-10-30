@@ -154,18 +154,20 @@ module.exports.getTodaysCompletedTask = async (req, res, next) => {
 module.exports.getPreviouslyCompletedTask = async (req, res, next) => {
   try {
     const skip = req.query.skip;
+    const project = req.query.project;
     const user = req.user;
     const taskList = await taskModel
       .find({
         user: user,
         status: "completed",
+        project:project,
         completionTime: {
           $lt: new Date(new Date().setUTCHours(0, 0, 0, 0)).toUTCString(),
         },
       })
       .skip(skip)
       .limit(20)
-      .sort({ orderId: "asc" })
+      .sort({ completionTime: "desc" })
       .lean();
     res.json({
       data: taskList,
