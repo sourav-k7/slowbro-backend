@@ -29,6 +29,11 @@ const TaskSchema = Schema({
     enum: ["unstarted", "started", "completed"],
     default:'unstarted',
   },
+  priority: {
+    type: String,
+    enum: ["low", "medium", "high"],
+    default:'medium',
+  },
   completionTime: {
     type:Date,
   },
