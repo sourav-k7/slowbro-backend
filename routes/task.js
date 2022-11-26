@@ -19,7 +19,7 @@ router.get("/previous", tokenCheck, getPreviouslyCompletedTask);
 router.post("/new", tokenCheck, newTask);
 router.post("/update", tokenCheck, updateTask);
 router.post("/complete", tokenCheck, markAsComplete);
-router.post("/swap", tokenCheck, swapTask);
+// router.post("/swap", tokenCheck, swapTask);
 router.delete("/delete/:id", tokenCheck, deleteTask);
 
 module.exports = router;
