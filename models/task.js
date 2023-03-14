@@ -58,7 +58,6 @@ const TaskSchema = Schema({
     type:mongoose.Types.ObjectId,
     ref:"User"
   },
-  orderId:Number,
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

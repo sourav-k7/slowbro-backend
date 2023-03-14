@@ -13,7 +13,6 @@ module.exports.newTask = async (req, res, next) => {
       doubt,
       comments,
       project,
-      orderId,
       priority
     } = req.body;
     const newTask = await taskModel.create({
@@ -27,7 +26,6 @@ module.exports.newTask = async (req, res, next) => {
       doubt,
       comments,
       project,
-      orderId,
       priority,
     });
     res.json({
@@ -81,24 +79,6 @@ module.exports.updateTask = async (req, res, next) => {
   }
 };
 
-module.exports.swapTask = async (req, res, next) => {
-  try {
-    const { dragTaskId, dragTaskOrderId, dropTaskId, dropTaskOrderId } =
-      req.body;
-    await taskModel.findOneAndUpdate(
-      { _id: dragTaskId },
-      { orderId: dropTaskOrderId }
-    );
-    await taskModel.findOneAndUpdate(
-      { _id: dropTaskId },
-      { orderId: dragTaskOrderId }
-    );
-    res.json({ message: "Task swapped" });
-  } catch (error) {
-    next(new ErrorHandler(error, 500));
-  }
-};
-
 module.exports.markAsComplete = async (req, res, next) => {
   try {
     const { taskId } = req.body;
@@ -124,7 +104,7 @@ module.exports.getAllPendingTask = async (req, res, next) => {
     const user = req.user;
     const taskList = await taskModel
       .find({ user: user, status: { $in: ["unstarted", "started"] } })
-      .sort({ orderId: "asc" })
+      .sort({ _id: "asc" })
       .lean();
     res.json({
       data: taskList,
@@ -145,7 +125,7 @@ module.exports.getTodaysCompletedTask = async (req, res, next) => {
           $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)).toUTCString(),
         },
       })
-      .sort({ orderId: "asc" })
+      .sort({ _id: "asc" })
       .lean();
     res.json({
       data: taskList,
