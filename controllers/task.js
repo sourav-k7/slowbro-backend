@@ -13,7 +13,8 @@ module.exports.newTask = async (req, res, next) => {
       doubt,
       comments,
       project,
-      priority
+      priority,
+      links
     } = req.body;
     const newTask = await taskModel.create({
       user: req.user,
@@ -27,6 +28,7 @@ module.exports.newTask = async (req, res, next) => {
       comments,
       project,
       priority,
+      links
     });
     res.json({
       message: "Task created",
@@ -50,7 +52,8 @@ module.exports.updateTask = async (req, res, next) => {
       doubt,
       comments,
       project,
-      priority
+      priority,
+      links
     } = req.body;
     const updatedTask = await taskModel
       .findByIdAndUpdate(
@@ -66,6 +69,7 @@ module.exports.updateTask = async (req, res, next) => {
           comments,
           project,
           priority,
+          links
         },
         { new: true }
       )

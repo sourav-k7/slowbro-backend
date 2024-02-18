@@ -24,6 +24,18 @@ const TaskSchema = Schema({
       },
     },
   ],
+  links: [
+    {
+      title: {
+        type: String,
+        required: true,
+      },
+      path: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   status: {
     type: String,
     enum: ["unstarted", "started", "completed"],
